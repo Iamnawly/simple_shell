@@ -30,19 +30,5 @@ void handle_env(void);
  */
 void tokenize_input(char *input, char *args[]);
 
-/**
- * get_username - Retrieves the current username.
- *
- * Return: A pointer to the current username.
- */
-char *get_username(void);
-
-/**
- * get_current_directory - Retrieves the current working directory.
- *
- * Return: A pointer to the current working directory.
- */
-char *get_current_directory(void);
-
 #endif /* SHELL_H */
 

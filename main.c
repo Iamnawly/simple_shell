@@ -8,10 +8,16 @@
  */
 void printPrompt(void)
 {
-    if (isatty(STDIN_FILENO)) {
-        printf("$ ");
-        fflush(stdout);
-    }
+char hostname[256];
+char username[256];
+char cwd[1024];
+
+gethostname(hostname, sizeof(hostname));
+getlogin_r(username, sizeof(username));
+getcwd(cwd, sizeof(cwd));
+
+printf("%s@%s:%s$ ", username, hostname, cwd);
+fflush(stdout);
 }
 
 /**
@@ -21,37 +27,55 @@ void printPrompt(void)
  */
 void processInput(char input[], char *args[])
 {
-    if (fgets(input, MAX_COMMAND_LENGTH, stdin) == NULL) {
-        if (isatty(STDIN_FILENO)) {
-            printf("\n");
-        }
-    } else {
-        input[strcspn(input, "\n")] = '\0';
-
-        if (strlen(input) != 0) {
-            if (strcmp(input, "exit") == 0) {
-                handle_exit();
-            } else if (strcmp(input, "env") == 0) {
-                handle_env();
-            } else {
-                tokenize_input(input, args);
-                execute_command(args[0], args);
-            }
-        }
-    }
+if (fgets(input, MAX_COMMAND_LENGTH, stdin) == NULL)
+{
+if (isatty(STDIN_FILENO))
+{
+printf("\n");
 }
+}
+else
+{
+input[strcspn(input, "\n")] = '\0';
 
+if (strlen(input) != 0)
+{
+if (strcmp(input, "exit") == 0)
+{
+handle_exit();
+}
+else if (strcmp(input, "env") == 0)
+{
+handle_env();
+}
+else
+{
+tokenize_input(input, args);
+execute_command(args[0], args);
+}
+}
+}
+}
+/**
+ * main - Entry point of the program
+ *
+ * This function is the starting point of the program.
+ * It initializes the shell and enters a loop to process user input.
+ *
+ * Return: Always 0 (success)
+ */
 int main(void)
 {
-    char input[MAX_COMMAND_LENGTH];
-    char *args[MAX_ARGUMENTS];
+char input[MAX_COMMAND_LENGTH];
+char *args[MAX_ARGUMENTS];
 
-    while (1) {
-        printPrompt();
-        processInput(input, args);
-        printPrompt();
-    }
+while (1)
+{
+printPrompt();
+processInput(input, args);
+printPrompt();
+}
 
-    return 0;
+return (0);
 }
 
