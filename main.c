@@ -8,16 +8,11 @@
  */
 void printPrompt(void)
 {
-char hostname[256];
-char username[256];
-char cwd[1024];
-
-gethostname(hostname, sizeof(hostname));
-getlogin_r(username, sizeof(username));
-getcwd(cwd, sizeof(cwd));
-
-printf("%s@%s:%s$ ", username, hostname, cwd);
+if (isatty(STDIN_FILENO))
+{
+printf("#cisfun$ ");
 fflush(stdout);
+}
 }
 
 /**
