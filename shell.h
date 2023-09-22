@@ -1,34 +1,43 @@
 #ifndef SHELL_H
 #define SHELL_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+/* Declaration of environ as an external variable */
 extern char **environ;
 
-#define MAX_COMMAND_LENGTH 100
-#define MAX_ARGUMENTS 10
+#define BUFFER_SIZE 1024
 
 /**
- * execute_command - Execute a command with arguments
- * @command: The command to be executed
- * @args: Array of arguments for the command
+ * parse_input - Parse the input into command and arguments
+ * @input: The input string
+ * @cmd: Pointer to store the command
+ * @args: Pointer to store the arguments
  */
-void execute_command(char *command, char *args[]);
+void parse_input(char *input, char **cmd, char **args);
 
 /**
- * handle_exit - Exit the shell
+ * execute_command - Execute the given command with arguments
+ * @cmd: The command to execute
+ * @args: The arguments for the command
  */
-void handle_exit(void);
+void execute_command(char *cmd, char **args);
 
 /**
- * handle_env - Print the current environment variables
+ * run_shell - Run the shell program
  */
-void handle_env(void);
+void run_shell();
 
 /**
- * tokenize_input - Tokenize user input into arguments
- * @input: The user input as a string
- * @args: The array to store tokenized arguments
+ * print_env - Print the current environment variables
  */
-void tokenize_input(char *input, char *args[]);
+void print_env(void);
+
 
 #endif /* SHELL_H */
 
